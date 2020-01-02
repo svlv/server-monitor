@@ -1,0 +1,14 @@
+<h1 id="tableLabel">Server monitoring</h1>
+
+<p *ngIf="!monitoring"><em>Loading...</em></p>
+
+<table class='table table-striped' aria-labelledby="tableLabel" *ngIf="monitoring">
+  <thead>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Current time</td>
+      <td>{{ monitoring.currentTime }}</td>
+    </tr>
+  </tbody>
+</table>
