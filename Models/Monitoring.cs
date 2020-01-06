@@ -14,18 +14,30 @@ namespace Models
         private readonly IConfiguration _config;
         private Task _monitoringTask;
         private readonly Func<Task> _monitor;
+        private readonly Bitcoin.Node _node;
+        private readonly Bitcoin.RpcClient _rpc;
 
         public Monitoring(IHubContext<Hubs.MonitoringHub, Interfaces.IMonitoringClient> hubContext, IConfiguration config)
         {
             _hubContext = hubContext;
             _config = config;
 
+            _node = new Bitcoin.Node();
+            _rpc = new Bitcoin.RpcClient()
+            {
+                UserName = _config.GetSection("Bitcoin").GetSection("Rpc").GetSection("UserName").Value,
+                Password = _config.GetSection("Bitcoin").GetSection("Rpc").GetSection("Password").Value,
+                Uri      = _config.GetSection("Bitcoin").GetSection("Rpc").GetSection("Uri").Value
+            };
+
             _monitor = async () =>
             {
                 while (Clients.Count > 0)
                 {
+                    await _hubContext.Clients.All.UpdateAvailableDiskSpace(AvailableFreeDiskSpace);
                     await _hubContext.Clients.All.UpdateTime(CurrentTime);
-                    await Task.Delay(100);
+                    await _hubContext.Clients.All.UpdateBitcoinBlockCount(_rpc.GetBlockCount());
+                    await Task.Delay(750);
                 }
             };
 
@@ -66,6 +78,18 @@ namespace Models
                 }
                 return 0;
             }
+        }
+
+        public void RunBitcoinNode()
+        {
+            _node.Run();
+            _hubContext.Clients.All.UpdateBitcoinNodeState("Running");
+        }
+
+        public void DownBitcoinNode()
+        {
+            _node.Down();
+            _hubContext.Clients.All.UpdateBitcoinNodeState("Stopped");
         }
     }
 }

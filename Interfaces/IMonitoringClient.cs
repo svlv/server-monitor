@@ -4,6 +4,11 @@ namespace Interfaces
 {
     public interface IMonitoringClient
     {
-        public Task UpdateTime(string currentTime);
+        Task UpdateTime(string currentTime);
+        Task UpdateAvailableDiskSpace(double space);
+        Task RunBitcoinNode();
+        Task DownBitcoinNode();
+        public Task UpdateBitcoinNodeState(string state);
+        Task UpdateBitcoinBlockCount(int count);
     }
 }

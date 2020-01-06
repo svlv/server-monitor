@@ -1,4 +1,4 @@
-<h1 id="tableLabel">Server monitoring</h1>
+<h1 id="tableLabel">Bitcoin explorer</h1>
 
 <p *ngIf="!monitoring"><em>Loading...</em></p>
 
@@ -6,16 +6,21 @@
   <thead>
   </thead>
   <tbody>
-
     <tr>
       <td>Current time</td>
       <td>{{ monitoring.currentTime }}</td>
     </tr>
+    <tr>
+      <td>Bitcoin node status</td>
+      <td>{{ monitoring.bitcoinNodeStatus }}</td>
+    </tr>
 
     <tr>
-      <td>Available disk space time</td>
-      <td>{{ monitoring.availableDiskSPace }}</td>
+      <td>Block count</td>
+      <td>{{ monitoring.bitcoinBlockCount }}</td>
     </tr>
 
   </tbody>
 </table>
+
+<button (click)="onChangeNodeState()">{{ bitcoinNodeAction }}</button>

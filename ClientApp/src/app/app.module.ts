@@ -7,12 +7,14 @@ import { RouterModule } from '@angular/router';
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { MonitoringComponent } from './monitoring/monitoring.component';
+import { BitcoinComponent } from './bitcoin/bitcoin.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavMenuComponent,
-    MonitoringComponent
+    MonitoringComponent,
+    BitcoinComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -21,6 +23,7 @@ import { MonitoringComponent } from './monitoring/monitoring.component';
     RouterModule.forRoot([
       { path: '', component: MonitoringComponent, pathMatch: 'full' },
       { path: 'monitoring', component: MonitoringComponent },
+      { path: 'bitcoin', component:BitcoinComponent }
     ])
   ],
   providers: [],

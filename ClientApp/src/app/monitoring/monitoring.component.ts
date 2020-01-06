@@ -14,13 +14,18 @@ export class MonitoringComponent implements OnInit, OnDestroy {
 
     ngOnInit(): void {
         this.monitoring = {
-            currentTime: "..."
+            currentTime: "...",
+            availableDiskSPace: 0
         };
 
         this.hubConnection = new HubConnectionBuilder().withUrl("/monitoringhub").build();
 
         this.hubConnection.on("UpdateTime", (message) => {
             this.monitoring.currentTime = message;
+        });
+
+        this.hubConnection.on("UpdateAvailableDiskSpace", (message) => {
+          this.monitoring.availableDiskSPace = message.toFixed(2);
         });
 
         this.hubConnection.start().then(function () {
@@ -38,4 +43,5 @@ export class MonitoringComponent implements OnInit, OnDestroy {
 
 interface Monitoring {
     currentTime: string;
+    availableDiskSPace: number;
 }

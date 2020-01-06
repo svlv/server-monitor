@@ -31,5 +31,30 @@ namespace Hubs
         {
             await Clients.All.UpdateTime(currentTime);
         }
+
+        public async Task RunBitcoinNode()
+        {
+            await UpdateBitcoinNodeState("Running");
+        }
+
+        public async Task DownBItcoinNode()
+        {
+            await UpdateBitcoinNodeState("Stopped");
+        }
+
+        public async Task UpdateBitcoinNodeState(string state)
+        {
+            await Clients.All.UpdateBitcoinNodeState(state);
+        }
+
+        public async Task UpdateBitcoinBlockCount(int count)
+        {
+            await Clients.All.UpdateBitcoinBlockCount(count);
+        }
+
+        public async Task UpdateAvailableDiskSpace(double space)
+        {
+            await Clients.All.UpdateAvailableDiskSpace(space);
+        }
     }
 }
